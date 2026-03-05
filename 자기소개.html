@@ -1,0 +1,1343 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>최윤호 — Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0f1117;
+        --bg2: #161b27;
+        --bg3: #1e2433;
+        --border: #2a3245;
+        --text: #f0f2f7;
+        --text2: #8b95ae;
+        --text3: #5a6478;
+        --accent: #3182f6;
+        --accent2: #1b6ef3;
+        --accent-glow: rgba(49, 130, 246, 0.25);
+        --green: #05c072;
+        --yellow: #f5cc00;
+        --purple: #8b5cf6;
+        --red: #f03e3e;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          "Pretendard",
+          -apple-system,
+          sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── Noise overlay ── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      /* ── Layout ── */
+      .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* ── Nav ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(15, 17, 23, 0.85);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 0;
+      }
+      nav .inner {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav-logo {
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+      .nav-logo span {
+        color: var(--accent);
+      }
+      .nav-links {
+        display: flex;
+        gap: 8px;
+      }
+      .nav-links a {
+        color: var(--text2);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 6px 12px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+        background: var(--bg3);
+      }
+
+      /* ── Hero ── */
+      .hero {
+        padding: 80px 0 60px;
+        position: relative;
+      }
+      .hero-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 40px;
+      }
+
+      /* ── Photo ── */
+      .photo-wrap {
+        flex-shrink: 0;
+        position: relative;
+      }
+      .photo-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 32px;
+        background: var(--bg3);
+        border: 2px solid var(--border);
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        transition: border-color 0.2s;
+      }
+      .photo-circle:hover {
+        border-color: var(--accent);
+      }
+      .photo-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+      }
+      .photo-circle .photo-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        color: var(--text3);
+      }
+      .photo-circle .photo-placeholder svg {
+        width: 28px;
+        height: 28px;
+      }
+      .photo-circle .photo-placeholder span {
+        font-size: 11px;
+        font-weight: 500;
+      }
+      .photo-upload-input {
+        display: none;
+      }
+      .status-dot {
+        position: absolute;
+        bottom: -4px;
+        right: -4px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--green);
+        border: 3px solid var(--bg);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(5, 192, 114, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 0 6px rgba(5, 192, 114, 0);
+        }
+      }
+
+      /* ── Hero text ── */
+      .hero-text {
+        flex: 1;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(49, 130, 246, 0.12);
+        border: 1px solid rgba(49, 130, 246, 0.3);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 20px;
+        margin-bottom: 14px;
+        letter-spacing: 0.3px;
+      }
+      .hero-name {
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+        line-height: 1.1;
+        margin-bottom: 6px;
+      }
+      .hero-name .accent {
+        color: var(--accent);
+      }
+      .hero-subtitle {
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--text2);
+        margin-bottom: 18px;
+        letter-spacing: -0.3px;
+      }
+      .hero-desc {
+        font-size: 15px;
+        color: var(--text2);
+        line-height: 1.7;
+        max-width: 480px;
+        margin-bottom: 24px;
+      }
+      .hero-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        color: var(--text2);
+        font-size: 13px;
+        font-weight: 500;
+        padding: 5px 12px;
+        border-radius: 10px;
+      }
+      .chip .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+      .chip .dot.green {
+        background: var(--green);
+      }
+      .chip .dot.blue {
+        background: var(--accent);
+      }
+      .chip .dot.yellow {
+        background: var(--yellow);
+      }
+      .chip .dot.purple {
+        background: var(--purple);
+      }
+
+      /* ── Divider ── */
+      .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 40px 0;
+      }
+
+      /* ── Section ── */
+      section {
+        margin-bottom: 52px;
+      }
+      .section-label {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        color: var(--text3);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      /* ── Cards ── */
+      .card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px 24px;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .card:hover {
+        border-color: #3a4560;
+        transform: translateY(-1px);
+      }
+      .card + .card {
+        margin-top: 10px;
+      }
+
+      /* ── Education ── */
+      .edu-card {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .edu-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 20px;
+      }
+      .edu-info {
+        flex: 1;
+      }
+      .edu-school {
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        margin-bottom: 3px;
+      }
+      .edu-major {
+        font-size: 14px;
+        color: var(--text2);
+        margin-bottom: 6px;
+      }
+      .edu-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .edu-period {
+        font-size: 12px;
+        color: var(--text3);
+        font-weight: 500;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 6px;
+        letter-spacing: 0.2px;
+      }
+      .badge.transfer {
+        background: rgba(49, 130, 246, 0.15);
+        color: var(--accent);
+      }
+      .badge.freshman {
+        background: rgba(91, 92, 246, 0.15);
+        color: #7b8bff;
+      }
+      .badge.expected {
+        background: rgba(5, 192, 114, 0.15);
+        color: var(--green);
+      }
+
+      /* ── Awards ── */
+      .award-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .award-icon {
+        font-size: 26px;
+        flex-shrink: 0;
+      }
+      .award-info {
+        flex: 1;
+      }
+      .award-title {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 3px;
+      }
+      .award-sub {
+        font-size: 13px;
+        color: var(--text2);
+      }
+      .award-tag {
+        background: rgba(245, 204, 0, 0.12);
+        border: 1px solid rgba(245, 204, 0, 0.3);
+        color: var(--yellow);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
+
+      /* ── Certs ── */
+      .certs-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .cert-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px 18px;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .cert-card:hover {
+        border-color: #3a4560;
+        transform: translateY(-1px);
+      }
+      .cert-icon {
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+      .cert-name {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 3px;
+        letter-spacing: -0.2px;
+      }
+      .cert-body {
+        font-size: 12px;
+        color: var(--text3);
+      }
+      .cert-year {
+        font-size: 11px;
+        color: var(--accent);
+        font-weight: 600;
+        margin-top: 6px;
+      }
+
+      /* ── Projects ── */
+      .proj-card {
+        position: relative;
+        overflow: hidden;
+      }
+      .proj-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--accent);
+        border-radius: 3px 0 0 3px;
+      }
+      .proj-card.toy::before {
+        background: var(--purple);
+      }
+      .proj-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .proj-title {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        letter-spacing: -0.3px;
+        line-height: 1.4;
+      }
+      .proj-desc {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.6;
+        margin-bottom: 12px;
+      }
+      .proj-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .proj-tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .proj-tag {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: var(--bg3);
+        color: var(--text3);
+        border: 1px solid var(--border);
+      }
+      .proj-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--accent);
+        text-decoration: none;
+        padding: 5px 12px;
+        border-radius: 8px;
+        background: rgba(49, 130, 246, 0.1);
+        border: 1px solid rgba(49, 130, 246, 0.2);
+        transition: background 0.2s;
+        flex-shrink: 0;
+      }
+      .proj-link:hover {
+        background: rgba(49, 130, 246, 0.2);
+      }
+      .proj-link.toy {
+        color: var(--purple);
+        background: rgba(139, 92, 246, 0.1);
+        border-color: rgba(139, 92, 246, 0.2);
+      }
+      .proj-link.toy:hover {
+        background: rgba(139, 92, 246, 0.2);
+      }
+      .wip-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: rgba(240, 62, 62, 0.12);
+        color: var(--red);
+        border: 1px solid rgba(240, 62, 62, 0.25);
+        flex-shrink: 0;
+      }
+      .wip-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--red);
+        animation: blink 1.2s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* ── Publications ── */
+      .pub-card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .pub-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .pub-icon {
+        font-size: 22px;
+      }
+      .pub-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 8px;
+        background: rgba(5, 192, 114, 0.12);
+        color: var(--green);
+        border: 1px solid rgba(5, 192, 114, 0.25);
+        letter-spacing: 0.3px;
+      }
+      .pub-title {
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1.55;
+        letter-spacing: -0.3px;
+        color: var(--text);
+      }
+      .pub-meta {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .pub-meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        color: var(--text3);
+        font-weight: 500;
+      }
+      .pub-keywords {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .pub-kw {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 9px;
+        border-radius: 6px;
+        background: rgba(49, 130, 246, 0.1);
+        color: #6aaeff;
+        border: 1px solid rgba(49, 130, 246, 0.2);
+      }
+
+      /* ── Tech Stack ── */
+      .stack-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .stack-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .stack-card:hover {
+        border-color: #3a4560;
+        transform: translateY(-1px);
+      }
+      .stack-lang-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+      .stack-lang-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        flex-shrink: 0;
+      }
+      .stack-lang-icon.c {
+        background: rgba(0, 89, 220, 0.15);
+        color: #4d9fff;
+        border: 1px solid rgba(0, 89, 220, 0.3);
+      }
+      .stack-lang-icon.py {
+        background: rgba(255, 213, 0, 0.12);
+        color: #ffe066;
+        border: 1px solid rgba(255, 213, 0, 0.25);
+      }
+      .stack-lang-name {
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+      }
+      .stack-lang-sub {
+        font-size: 12px;
+        color: var(--text3);
+        margin-top: 2px;
+      }
+      .stack-bar-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .stack-bar-label {
+        font-size: 11px;
+        color: var(--text3);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .stack-bar-bg {
+        flex: 1;
+        height: 6px;
+        background: var(--bg3);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .stack-bar-fill {
+        height: 100%;
+        width: 0;
+        border-radius: 3px;
+        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .c-fill {
+        background: linear-gradient(90deg, #4d9fff, #0055cc);
+      }
+      .py-fill {
+        background: linear-gradient(90deg, #ffe066, #f5a623);
+      }
+      .stack-bar-pct {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text2);
+        white-space: nowrap;
+      }
+      .stack-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .stack-tag {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 9px;
+        border-radius: 6px;
+        background: var(--bg3);
+        color: var(--text3);
+        border: 1px solid var(--border);
+      }
+      @media (max-width: 600px) {
+        .stack-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ── TOEIC special ── */
+      .toeic-card {
+        background: linear-gradient(
+          135deg,
+          rgba(49, 130, 246, 0.08) 0%,
+          rgba(139, 92, 246, 0.08) 100%
+        );
+        border-color: rgba(49, 130, 246, 0.25);
+      }
+      .toeic-score {
+        font-size: 36px;
+        font-weight: 800;
+        letter-spacing: -1px;
+      }
+      .toeic-score span {
+        color: var(--accent);
+      }
+      .toeic-label {
+        font-size: 13px;
+        color: var(--text2);
+        margin-top: 2px;
+      }
+      .toeic-bar-wrap {
+        margin-top: 14px;
+      }
+      .toeic-bar-bg {
+        height: 6px;
+        background: var(--bg3);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .toeic-bar-fill {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--accent), var(--purple));
+        border-radius: 3px;
+        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .toeic-bar-fill.animate {
+        width: 88.5%;
+      }
+
+      /* ── Footer ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 32px 0;
+        text-align: center;
+        color: var(--text3);
+        font-size: 13px;
+      }
+
+      /* ── Animations ── */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 600px) {
+        .hero-content {
+          flex-direction: column;
+          gap: 24px;
+        }
+        .hero-name {
+          font-size: 32px;
+        }
+        .certs-grid {
+          grid-template-columns: 1fr;
+        }
+        .nav-links {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Nav -->
+    <nav>
+      <div class="inner">
+        <div class="nav-logo">최<span>.</span>윤호</div>
+        <div class="nav-links">
+          <a href="#education">학력</a>
+          <a href="#awards">수상</a>
+          <a href="#certs">자격증</a>
+          <a href="#publications">논문</a>
+          <a href="#stack">기술스택</a>
+          <a href="#projects">프로젝트</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="container">
+      <div class="hero fade-in">
+        <div class="hero-content">
+          <!-- Photo -->
+          <div class="photo-wrap">
+            <div class="photo-circle" id="photoCircle">
+              <!-- 경로를 아래 src에 입력하세요 (예: ./photo.jpg 또는 https://...) -->
+              <img
+                id="profileImg"
+                src="./photo.jpg"
+                alt="프로필 사진"
+                onerror="
+                  this.style.display = 'none';
+                  document.getElementById('photoPlaceholder').style.display =
+                    'flex';
+                "
+                onload="
+                  this.style.display = 'block';
+                  document.getElementById('photoPlaceholder').style.display =
+                    'none';
+                "
+              />
+              <div class="photo-placeholder" id="photoPlaceholder">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span>사진 없음</span>
+              </div>
+            </div>
+            <div class="status-dot"></div>
+          </div>
+
+          <!-- Text -->
+          <div class="hero-text">
+            <div class="hero-badge">
+              <svg width="8" height="8" viewBox="0 0 8 8">
+                <circle cx="4" cy="4" r="4" fill="#05c072" />
+              </svg>
+              Open to Opportunities
+            </div>
+            <div class="hero-name">최<span class="accent">윤호</span></div>
+            <div class="hero-subtitle">Software Engineer & Data Scientist</div>
+            <div class="hero-desc">
+              컴퓨터학부 플랫폼SW·데이터과학 전공으로 온디바이스 AI, 머신러닝,
+              데이터 분석에 관심이 깊습니다. 실용적인 문제 해결과 기술의 현장
+              적용을 추구합니다.
+            </div>
+            <div class="hero-chips">
+              <span class="chip"><span class="dot blue"></span>경북대학교</span>
+              <span class="chip"
+                ><span class="dot green"></span>On-Device AI</span
+              >
+              <span class="chip"
+                ><span class="dot yellow"></span>Machine Learning</span
+              >
+              <span class="chip"
+                ><span class="dot purple"></span>Data Science</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Education -->
+      <section id="education" class="fade-in">
+        <div class="section-label">학력</div>
+
+        <div class="card edu-card">
+          <div class="edu-icon">🎓</div>
+          <div class="edu-info">
+            <div class="edu-school">경북대학교</div>
+            <div class="edu-major">
+              컴퓨터학부 플랫폼SW&데이터과학전공 · 대구
+            </div>
+            <div class="edu-meta">
+              <span class="edu-period">2025 — 2027.02 (졸업 예정)</span>
+              <span class="badge transfer">편입학</span>
+              <span class="badge expected">재학 중</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card edu-card" style="margin-top: 10px">
+          <div class="edu-icon">🎓</div>
+          <div class="edu-info">
+            <div class="edu-school">순천향대학교</div>
+            <div class="edu-major">컴퓨터소프트웨어공학과 · 아산</div>
+            <div class="edu-meta">
+              <span class="edu-period">2023 — 2025</span>
+              <span class="badge freshman">신입학</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Awards -->
+      <section id="awards" class="fade-in">
+        <div class="section-label">수상</div>
+        <div class="card award-card">
+          <div class="award-icon">🏆</div>
+          <div class="award-info">
+            <div class="award-title">산학협력프로젝트 최우수상</div>
+            <div class="award-sub">2025학년도 · 산학협력 프로젝트 부문</div>
+          </div>
+          <div class="award-tag">최우수</div>
+        </div>
+      </section>
+
+      <!-- Certs -->
+      <section id="certs" class="fade-in">
+        <div class="section-label">자격증 & 어학</div>
+        <div class="certs-grid">
+          <div class="cert-card">
+            <div class="cert-icon">📋</div>
+            <div class="cert-name">정보처리기사</div>
+            <div class="cert-body">국가기술자격 (예)</div>
+            <div class="cert-year">취득 예정</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-icon">📊</div>
+            <div class="cert-name">빅데이터 분석기사</div>
+            <div class="cert-body">국가기술자격</div>
+            <div class="cert-year">취득 완료</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-icon">🗄️</div>
+            <div class="cert-name">SQLD</div>
+            <div class="cert-body">국가공인 SQL 개발자</div>
+            <div class="cert-year">2025</div>
+          </div>
+
+          <div class="cert-card toeic-card">
+            <div class="toeic-score"><span>885</span></div>
+            <div class="toeic-label">TOEIC · 영어 공인 점수</div>
+            <div class="toeic-bar-wrap">
+              <div class="toeic-bar-bg">
+                <div class="toeic-bar-fill" id="toeicBar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Publications -->
+      <section id="publications" class="fade-in">
+        <div class="section-label">논문 출판</div>
+        <div class="card pub-card">
+          <div class="pub-top">
+            <div class="pub-icon">📄</div>
+            <div class="pub-badge">Published · 2025</div>
+          </div>
+          <div class="pub-title">
+            YOLO 기반 객체 검출과 시선 추정을 이용한 차량 내 운전자 주의 및
+            휴대폰 사용 인식 시스템 연구
+          </div>
+          <div class="pub-meta">
+            <span class="pub-meta-item">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              2025
+            </span>
+            <span class="pub-meta-item">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path
+                  d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                />
+              </svg>
+              학술 논문
+            </span>
+          </div>
+          <div class="pub-keywords">
+            <span class="pub-kw">YOLO</span>
+            <span class="pub-kw">Object Detection</span>
+            <span class="pub-kw">Gaze Estimation</span>
+            <span class="pub-kw">Driver Monitoring</span>
+            <span class="pub-kw">In-Vehicle Camera</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tech Stack -->
+      <section id="stack" class="fade-in">
+        <div class="section-label">기술 스택</div>
+        <div class="stack-grid">
+          <div class="stack-card">
+            <div class="stack-lang-header">
+              <div class="stack-lang-icon c">C</div>
+              <div>
+                <div class="stack-lang-name">C / C++</div>
+                <div class="stack-lang-sub">
+                  Systems · Embedded · Performance
+                </div>
+              </div>
+            </div>
+            <div class="stack-bar-row">
+              <span class="stack-bar-label">숙련도</span>
+              <div class="stack-bar-bg">
+                <div class="stack-bar-fill c-fill" data-width="72%"></div>
+              </div>
+              <span class="stack-bar-pct">72%</span>
+            </div>
+            <div class="stack-tags">
+              <span class="stack-tag">포인터 · 메모리 관리</span>
+              <span class="stack-tag">OOP</span>
+              <span class="stack-tag">STL</span>
+            </div>
+          </div>
+
+          <div class="stack-card">
+            <div class="stack-lang-header">
+              <div class="stack-lang-icon py">Py</div>
+              <div>
+                <div class="stack-lang-name">Python</div>
+                <div class="stack-lang-sub">AI · Data · Automation</div>
+              </div>
+            </div>
+            <div class="stack-bar-row">
+              <span class="stack-bar-label">숙련도</span>
+              <div class="stack-bar-bg">
+                <div class="stack-bar-fill py-fill" data-width="88%"></div>
+              </div>
+              <span class="stack-bar-pct">88%</span>
+            </div>
+            <div class="stack-tags">
+              <span class="stack-tag">NumPy · Pandas</span>
+              <span class="stack-tag">scikit-learn</span>
+              <span class="stack-tag">PyTorch</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="fade-in">
+        <div class="section-label">프로젝트</div>
+
+        <div class="card proj-card" style="margin-bottom: 10px">
+          <div class="proj-header">
+            <div class="proj-title">
+              차량 내 카메라를 활용한 온디바이스 환경에서의 탑승자 위험 인식
+            </div>
+          </div>
+          <div class="proj-desc">
+            차량 내부 카메라와 경량 AI 모델을 결합해 탑승자의 위험 상황을
+            실시간으로 감지하는 온디바이스 솔루션. 산학협력 최우수상 수상
+            프로젝트.
+          </div>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="proj-tag">On-Device AI</span>
+              <span class="proj-tag">Computer Vision</span>
+              <span class="proj-tag">Python</span>
+            </div>
+            <a href="~~" class="proj-link" target="_blank">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              바로가기
+            </a>
+          </div>
+        </div>
+
+        <div class="card proj-card">
+          <div class="proj-header">
+            <div class="proj-title">CNN 활용 작업자 안전관리 솔루션 구축</div>
+            <div class="wip-badge">
+              <div class="wip-dot"></div>
+              진행 중
+            </div>
+          </div>
+          <div class="proj-desc">
+            영상기반 AI 기술을 활용하여 작업자와 지게차를 구분하고, 지게차 진입
+            시에도 작업자 존재 여부를 판단할 수 있는 지능형 안전관리 솔루션
+          </div>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="proj-tag">Machine Learning</span>
+              <span class="proj-tag">FDS</span>
+              <span class="proj-tag">Python</span>
+            </div>
+            <a href="~~" class="proj-link" target="_blank">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              바로가기
+            </a>
+          </div>
+        </div>
+
+        <div class="card proj-card">
+          <div class="proj-header">
+            <div class="proj-title">ML 모델을 이용한 FDS 시스템</div>
+            <div class="wip-badge">
+              <div class="wip-dot"></div>
+              진행 중
+            </div>
+          </div>
+          <div class="proj-desc">
+            머신러닝 기반 이상 거래 탐지(Fraud Detection System) 개발. 실시간
+            데이터 파이프라인과 분류 모델을 결합한 금융 보안 시스템.
+          </div>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="proj-tag">Machine Learning</span>
+              <span class="proj-tag">FDS</span>
+              <span class="proj-tag">Python</span>
+            </div>
+            <a href="~~" class="proj-link" target="_blank">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              바로가기
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Toy Projects -->
+      <section class="fade-in">
+        <div class="section-label">토이 프로젝트</div>
+
+        <div class="card proj-card toy">
+          <div class="proj-title">삼성 갤럭시북 장치관리자 제어</div>
+          <div class="proj-desc">
+            삼성 갤럭시북의 장치관리자를 프로그래밍 방식으로 제어하는 토이
+            프로젝트.
+          </div>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="proj-tag">Windows</span>
+              <span class="proj-tag">Device Control</span>
+            </div>
+            <a href="~~" class="proj-link toy" target="_blank">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              바로가기
+            </a>
+          </div>
+        </div>
+
+        <div class="card proj-card toy">
+          <div class="proj-title">
+            경북대학교 컴퓨터학부 공지사항 토스트 알리미
+          </div>
+          <div class="proj-desc">
+            윈도우 11환경에서 경북대학교 컴퓨터학부 공지사항을 토스트알림으로
+            알려주는 토이프로젝트.
+          </div>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="proj-tag">Windows</span>
+              <span class="proj-tag">Device Control</span>
+            </div>
+            <a href="~~" class="proj-link toy" target="_blank">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              바로가기
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div>최윤호 · Choi Yunho · 2025</div>
+      <div style="margin-top: 4px; color: #3a4560; font-size: 12px">
+        경북대학교 컴퓨터학부 플랫폼SW&데이터과학전공
+      </div>
+    </footer>
+
+    <script>
+      // ── Photo upload ──
+      function handlePhoto(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = document.getElementById("profileImg");
+          const placeholder = document.getElementById("photoPlaceholder");
+          img.src = ev.target.result;
+          img.style.display = "block";
+          placeholder.style.display = "none";
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // ── Intersection Observer ──
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              // TOEIC bar
+              if (entry.target.querySelector("#toeicBar")) {
+                setTimeout(
+                  () =>
+                    document
+                      .getElementById("toeicBar")
+                      .classList.add("animate"),
+                  300,
+                );
+              }
+              // Stack bars
+              entry.target
+                .querySelectorAll(".stack-bar-fill")
+                .forEach((bar) => {
+                  setTimeout(() => {
+                    bar.style.width = bar.dataset.width;
+                  }, 300);
+                });
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document
+        .querySelectorAll(".fade-in")
+        .forEach((el) => observer.observe(el));
+
+      // Trigger hero immediately
+      setTimeout(
+        () => document.querySelector(".hero").classList.add("visible"),
+        100,
+      );
+    </script>
+  </body>
+</html>
